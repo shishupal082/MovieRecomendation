@@ -15,7 +15,6 @@ import java.util.*;
  * Created by shishupal.kumar on 27/06/15.
  */
 public class MovieLibs {
-    private String movieFile = "/Users/shishupal.kumar/workspace/MovieRecomendation/src/main/resources/movie.data";
     private Logger logger = LoggerFactory.getLogger(MovieLibs.class);
     private MovieDatabase movieDatabase;
     public MovieLibs() {}
@@ -23,49 +22,21 @@ public class MovieLibs {
     public MovieLibs(MovieDatabase movieDatabase){
         this.movieDatabase = movieDatabase;
     }
-    private List<String> tokanizeLine (String line, String delimator){
-        List<String> lst = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer(line, delimator);
-        while (st.hasMoreElements()){
-            lst.add(st.nextToken());
-        }
-        return lst;
-    }
     public List<Movie> getAllMovies(){
+        Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
         List<Movie> allMovies = new ArrayList<Movie>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(movieFile));
-            logger.info(String.format("File successfully parsed : %s", movieFile));
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                List<String> tokens = tokanizeLine(sCurrentLine, "|");
-                Iterator<String> itr = tokens.iterator();
-                Movie movie = new Movie();
-                try {
-                    movie.setMovieId(Integer.parseInt(itr.next()));
-                    movie.setTitle(itr.next());
-                    movie.setReleaseDate(itr.next());
-                    allMovies.add(movie);
-                }catch (Exception e){
-                    logger.info(String.format("Line parsing error : %s", sCurrentLine));
-                }
-            }
-        } catch (IOException e) {
-            logger.info(String.format("File not found : %s", movieFile));
+        for (Map.Entry<Integer, Movie> temoMovie : movieMap.entrySet()){
+            allMovies.add(temoMovie.getValue());
         }
         return allMovies;
     }
     public Movie getMovieById(Integer movieId) throws MovieNotFound{
-
-        Movie movie = new Movie();
-        List<Movie> allMovies = this.getAllMovies();
-        for (int i=0; i < allMovies.size(); i++){
-            Movie tempMovie = allMovies.get(i);
-            if(tempMovie.getMovieId() == movieId){
-                return tempMovie;
-            }
+        Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
+        Movie movie = movieMap.get(movieId);
+        if(movie == null){
+            throw new MovieNotFound("Movie not found.", "invalidMovieId");
         }
-        throw new MovieNotFound("Movie not found.", "invalidMovieId");
+        return movie;
     }
 
     public List<Movie> getMostWatchedMovie(){

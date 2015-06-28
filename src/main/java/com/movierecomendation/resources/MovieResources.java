@@ -5,10 +5,13 @@ package com.movierecomendation.resources;
  */
 
 import com.codahale.metrics.annotation.Timed;
+import com.movierecomendation.DisplayResult;
 import com.movierecomendation.exception.MovieNotFound;
 import com.movierecomendation.libs.CustomResponse;
 import com.movierecomendation.libs.MovieLibs;
 import com.movierecomendation.model.Movie;
+import com.movierecomendation.parser.HardCodedParser;
+import com.movierecomendation.parser.MdbParser;
 import com.sun.tools.classfile.Code_attribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +30,10 @@ import java.util.List;
 public class MovieResources {
     private static Logger logger = LoggerFactory.getLogger(MovieResources.class);
     private CustomResponse customResponse = new CustomResponse();
-    private MovieLibs movieLibs = new MovieLibs();
+
+    MdbParser mdb = new HardCodedParser();
+    DisplayResult displayResult = new DisplayResult();
+    MovieLibs movieLibs = new MovieLibs(mdb.getMovieDatabase());
 
     @GET
     @Path("/all")

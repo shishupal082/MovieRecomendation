@@ -25,7 +25,10 @@ public class HardCodedParser implements MdbParser {
     private Map<Integer, Movie> movieFileParser() {
         Map<Integer, Movie> movieMap=new HashMap<Integer, Movie>();
         Set<Genre> genre=new HashSet<Genre>();
-        genre.add(Genre.values()[1]);
+        try {
+            genre.add(Genre.values()[19]);
+        }catch (Exception e){
+        }
         movieMap.put(100, new Movie(100, "xyz", genre));
         Set<Genre> genre2=new HashSet<Genre>();
         genre2.add(Genre.COMEDY);
