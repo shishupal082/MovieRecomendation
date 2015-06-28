@@ -25,10 +25,9 @@ public class UserResources {
     private UserLibs userLibs = new UserLibs();
 
     @GET
-    @Path("/")
-    public Response getUser() {
-        HashMap<String, String> res = customResponse.get();
-        return Response.status(Response.Status.FOUND).entity(res).build();
+    @Path("/all")
+    public Response getAllUser() {
+        return Response.status(Response.Status.FOUND).entity(userLibs.getAllUser()).build();
     }
 
     @GET

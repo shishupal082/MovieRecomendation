@@ -1,7 +1,7 @@
 package com.movierecomendation.libs;
 
 import com.movierecomendation.exception.MovieNotFound;
-import com.movierecomendation.model.Movie;
+import com.movierecomendation.model.*;
 import com.sun.tools.classfile.Code_attribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,12 @@ import java.util.*;
 public class MovieLibs {
     private String movieFile = "/Users/shishupal.kumar/workspace/MovieRecomendation/src/main/resources/movie.data";
     private Logger logger = LoggerFactory.getLogger(MovieLibs.class);
+    private MovieDatabase movieDatabase;
     public MovieLibs() {}
+
+    public MovieLibs(MovieDatabase movieDatabase){
+        this.movieDatabase = movieDatabase;
+    }
     private List<String> tokanizeLine (String line, String delimator){
         List<String> lst = new ArrayList<String>();
         StringTokenizer st = new StringTokenizer(line, delimator);
@@ -50,16 +55,66 @@ public class MovieLibs {
         }
         return allMovies;
     }
-    public Movie getMovieById(Integer movieIndex) throws MovieNotFound{
+    public Movie getMovieById(Integer movieId) throws MovieNotFound{
 
         Movie movie = new Movie();
         List<Movie> allMovies = this.getAllMovies();
         for (int i=0; i < allMovies.size(); i++){
             Movie tempMovie = allMovies.get(i);
-            if(tempMovie.getMovieId() == movieIndex){
+            if(tempMovie.getMovieId() == movieId){
                 return tempMovie;
             }
         }
         throw new MovieNotFound("Movie not found.", "invalidMovieId");
+    }
+
+    public List<Movie> getMostWatchedMovie(){
+        List<Rating>movieRatingList = movieDatabase.getMovieRatingList();
+        Map<Movie,Integer>mapMovieToWatchCount=new HashMap<Movie,Integer>();
+        List<Movie>mostWatchedMovies=new ArrayList<Movie>();
+        for(Rating rating:movieRatingList)
+        {
+            Movie movie=rating.getMovie();
+            int watchCount;
+            if(mapMovieToWatchCount.containsKey(movie))
+            {
+                watchCount=mapMovieToWatchCount.get(movie);
+                watchCount+=1;
+            }
+            else
+                watchCount=1;
+            mapMovieToWatchCount.put(movie, watchCount);
+        }
+        //Movie mostWatchedMovie=null;
+        int maxWatchCount=Integer.MIN_VALUE;
+        for(Movie movie:mapMovieToWatchCount.keySet())
+        {
+            int watchCount=mapMovieToWatchCount.get(movie);
+            if(watchCount>maxWatchCount)
+            {
+                mostWatchedMovies.clear();
+                mostWatchedMovies.add(movie);
+                maxWatchCount=watchCount;
+            }
+            else if(watchCount==maxWatchCount)
+            {
+                mostWatchedMovies.add(movie);
+            }
+        }
+        return mostWatchedMovies;
+    }
+
+    public User mostActiveUser(){
+        User user = new User();
+        return user;
+    }
+
+    public Movie getTopMovieByGenre(){
+        Movie movie = new Movie();
+        return movie;
+    }
+    public Movie getTopMovieByYear(Integer year){
+        Movie movie = new Movie();
+        return movie;
     }
 }

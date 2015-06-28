@@ -9,8 +9,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
  */
 public class User {
     private Integer userId;
-    private String userName;
+    private String userName; // It is type of user : technician, teacher, it,...
     private String phone;
+
+    public User(){ }
+
+    public User(Integer userId, String userName){
+        this.userId = userId;
+        this.userName = userName;
+    }
 
     public Integer getUserId() {
         return userId;

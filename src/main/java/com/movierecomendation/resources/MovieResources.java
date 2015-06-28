@@ -30,17 +30,9 @@ public class MovieResources {
     private MovieLibs movieLibs = new MovieLibs();
 
     @GET
-    @Path("/")
-    public Response getMovie() {
-        HashMap<String, String> res = customResponse.get("SUCECSS", "tooManyData");
-        return Response.status(Response.Status.FOUND).entity(res).build();
-    }
-
-    @GET
     @Path("/all")
     public Response getAllMovie() {
-        HashMap<String, String> res = customResponse.get("SUCECSS", "tooManyData");
-        return Response.status(Response.Status.FOUND).entity(res).build();
+        return Response.status(Response.Status.FOUND).entity(movieLibs.getAllMovies()).build();
     }
 
     @GET
