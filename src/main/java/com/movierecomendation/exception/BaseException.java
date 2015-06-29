@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
  * Created by shishupal.kumar on 27/06/15.
  */
 public class BaseException extends Exception {
-    private Logger logger = LoggerFactory.getLogger(UserNotFound.class);
+    private Logger logger = LoggerFactory.getLogger(BaseException.class);
     private String message;
     private String reason;
 

@@ -52,6 +52,13 @@ public class MovieResources {
         }
     }
 
+    @GET
+    @Path("/v2/{movieId}")
+    public Response getMovieV2(@PathParam("movieId") Integer movieId) {
+        logger.info(String.format("Fetching movie for movieId %s", movieId));
+        return Response.status(Response.Status.FOUND).entity(movieLibs.getMovieByIdV2(movieId)).build();
+    }
+
     @POST
     @Path("/post")
     public Response postMovie(Movie movie) {

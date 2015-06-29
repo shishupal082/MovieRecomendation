@@ -6,6 +6,7 @@ import com.sun.tools.classfile.Code_attribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.NotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -30,11 +31,21 @@ public class MovieLibs {
         }
         return allMovies;
     }
+
     public Movie getMovieById(Integer movieId) throws MovieNotFound{
         Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
         Movie movie = movieMap.get(movieId);
         if(movie == null){
             throw new MovieNotFound("Movie not found.", "invalidMovieId");
+        }
+        return movie;
+    }
+
+    public Movie getMovieByIdV2(Integer movieId) {
+        Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
+        Movie movie = movieMap.get(movieId);
+        if(movie == null){
+            throw new NotFoundException(String.format("No movie found for given movie id : %s", movieId));
         }
         return movie;
     }
