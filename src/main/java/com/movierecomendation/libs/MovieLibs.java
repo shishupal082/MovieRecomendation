@@ -32,19 +32,10 @@ public class MovieLibs {
         return allMovies;
     }
 
-    public Movie getMovieById(Integer movieId) throws MovieNotFound{
+    public Movie getMovieById(Integer movieId) {
         Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
         Movie movie = movieMap.get(movieId);
-        if(movie == null){
-            throw new MovieNotFound("Movie not found.", "invalidMovieId");
-        }
-        return movie;
-    }
-
-    public Movie getMovieByIdV2(Integer movieId) {
-        Map<Integer, Movie> movieMap = movieDatabase.getMovieMap();
-        Movie movie = movieMap.get(movieId);
-        if(movie == null){
+        if (movie == null) {
             throw new NotFoundException(String.format("No movie found for given movie id : %s", movieId));
         }
         return movie;

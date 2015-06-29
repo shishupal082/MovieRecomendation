@@ -15,6 +15,8 @@ import java.util.logging.Handler;
 public class CustomResponse {
     private Integer methodNotDefined = 404;
     private Integer methodNotAllowed = 405;
+    private Integer internalServerError = 500;
+
     public HashMap<String, String> get(String status, String reason, String message){
         HashMap<String, String> res = new HashMap<String, String>();
         res.put("status", status);

@@ -51,4 +51,15 @@ public class UserLibs {
         }
         return user;
     }
+
+    public User getUserByIdV2(Integer userId) throws UserNotFound{
+        Map<Integer, User> userMap = movieDatabase.getUserMap();
+        User user = userMap.get(userId);
+        if(user == null){
+            throw new UserNotFound("User not found.", "invalidUserId");
+        }
+        return user;
+    }
+
+
 }

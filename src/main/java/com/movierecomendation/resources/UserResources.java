@@ -43,6 +43,17 @@ public class UserResources {
         return Response.status(Response.Status.FOUND).entity(userLibs.getUserById(userId)).build();
     }
 
+    @GET
+    @Path("/v2/{userId}")
+    public Response getUserByIdV2(@PathParam("userId") Integer userId) throws UserNotFound {
+        logger.info(String.format("Fetching user for userId %s", userId));
+        try{
+            return Response.status(Response.Status.FOUND).entity(userLibs.getUserByIdV2(userId)).build();
+        }catch (UserNotFound e){
+            return Response.status(Response.Status.FOUND).entity(customResponse.getException(e)).build();
+        }
+    }
+
     @POST
     @Path("/post")
     public Response postUser(User user) {
