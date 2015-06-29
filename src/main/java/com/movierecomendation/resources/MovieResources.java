@@ -10,6 +10,7 @@ import com.movierecomendation.exception.MovieNotFound;
 import com.movierecomendation.libs.CustomResponse;
 import com.movierecomendation.libs.MovieLibs;
 import com.movierecomendation.model.Movie;
+import com.movierecomendation.parser.FileParser;
 import com.movierecomendation.parser.HardCodedParser;
 import com.movierecomendation.parser.MdbParser;
 import com.sun.tools.classfile.Code_attribute;
@@ -31,7 +32,7 @@ public class MovieResources {
     private static Logger logger = LoggerFactory.getLogger(MovieResources.class);
     private CustomResponse customResponse = new CustomResponse();
 
-    MdbParser mdb = new HardCodedParser();
+    MdbParser mdb = new FileParser();
     DisplayResult displayResult = new DisplayResult();
     MovieLibs movieLibs = new MovieLibs(mdb.getMovieDatabase());
 

@@ -1,9 +1,13 @@
 package com.movierecomendation.resources;
 
+import com.movierecomendation.DisplayResult;
 import com.movierecomendation.libs.CustomResponse;
+import com.movierecomendation.libs.MovieLibs;
 import com.movierecomendation.libs.UserLibs;
 import com.movierecomendation.exception.UserNotFound;
 import com.movierecomendation.model.User;
+import com.movierecomendation.parser.FileParser;
+import com.movierecomendation.parser.MdbParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +26,10 @@ import java.util.HashMap;
 public class UserResources {
     private static Logger logger = LoggerFactory.getLogger(MovieResources.class);
     private CustomResponse customResponse = new CustomResponse();
-    private UserLibs userLibs = new UserLibs();
+
+    MdbParser mdb = new FileParser();
+    DisplayResult displayResult = new DisplayResult();
+    private UserLibs userLibs = new UserLibs(mdb.getMovieDatabase());
 
     @GET
     @Path("/all")
@@ -32,12 +39,8 @@ public class UserResources {
 
     @GET
     @Path("/{userId}")
-    public Response getUserById(@PathParam("userId") Integer userId) throws UserNotFound {
-        try{
-            return Response.status(Response.Status.FOUND).entity(userLibs.getUserById(userId)).build();
-        }catch (UserNotFound e){
-            return Response.status(Response.Status.NOT_FOUND).entity(customResponse.getException(e)).build();
-        }
+    public Response getUserById(@PathParam("userId") Integer userId) {
+        return Response.status(Response.Status.FOUND).entity(userLibs.getUserById(userId)).build();
     }
 
     @POST

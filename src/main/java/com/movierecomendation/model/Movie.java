@@ -7,9 +7,9 @@ import java.util.Set;
  */
 public class Movie {
     private int movieId;
-    String title;
-    String releaseDate;
-    Set<Genre> genre;
+    private String title;
+    private String releaseDate;
+    private Set<Genre> genre;
 
     public Movie(){}
 
