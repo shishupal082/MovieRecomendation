@@ -1,6 +1,7 @@
 package com.movierecomendation;
 
 import com.movierecomendation.resources.MovieResources;
+import com.movierecomendation.resources.RatingResources;
 import com.movierecomendation.resources.UserResources;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
@@ -18,5 +19,6 @@ public class App extends BaseApplication <AppConfiguration> {
     public void run(AppConfiguration config, Environment environment) throws Exception {
         environment.jersey().register(MovieResources.class);
         environment.jersey().register(UserResources.class);
+        environment.jersey().register(RatingResources.class);
     }
 }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 /**
  * Created by shishupal.kumar on 27/06/15.
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private Integer userId;
     private String userName; // It is type of user : technician, teacher, it,...
@@ -23,21 +25,18 @@ public class User {
         return userId;
     }
 
-    @JsonIgnoreProperties
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
     public String getPhone() { return phone; }
 
-    @JsonIgnoreProperties
     public void setPhone(String phone) { this.phone = phone; }
 
     public String getUserName() {
         return userName;
     }
 
-    @JsonIgnoreProperties
     public void setUserName(String userName) {
         this.userName = userName;
     }

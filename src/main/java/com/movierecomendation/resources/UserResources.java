@@ -61,5 +61,4 @@ public class UserResources {
         HashMap<String, String> res = customResponse.get("SUCECSS", "not_started");
         return Response.status(Response.Status.FOUND).entity(res).build();
     }
-
 }

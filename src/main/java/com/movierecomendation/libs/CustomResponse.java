@@ -13,9 +13,6 @@ import java.util.logging.Handler;
  * Created by shishupal.kumar on 27/06/15.
  */
 public class CustomResponse {
-    private Integer methodNotDefined = 404;
-    private Integer methodNotAllowed = 405;
-    private Integer internalServerError = 500;
 
     public HashMap<String, String> get(String status, String reason, String message){
         HashMap<String, String> res = new HashMap<String, String>();
@@ -39,5 +36,9 @@ public class CustomResponse {
 
     public HashMap<String, String> getException(BaseException e){
         return this.get("FAILURE", e.getReason(), e.getMessage());
+    }
+
+    public HashMap<String, String> getTooManyData(){
+        return this.get("SUCCESS", "tooManyData", "System will be slow down.");
     }
 }

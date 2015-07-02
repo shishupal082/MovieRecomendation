@@ -17,11 +17,13 @@ public class FileParser implements MdbParser {
     private Logger logger = LoggerFactory.getLogger(FileParser.class);
     private String movieFile = "movie.data";
     private String userFile = "user.data";
+    private String ratingFile = "rating.data";
 
     public FileParser() {
         String parentPath = "/src/main/java/com/movierecomendation/parser/";
-        this.movieFile = System.getProperty("user.dir").concat(parentPath+this.movieFile);
-        this.userFile = System.getProperty("user.dir").concat(parentPath+this.userFile);
+        this.movieFile = System.getProperty("user.dir").concat(parentPath + this.movieFile);
+        this.userFile = System.getProperty("user.dir").concat(parentPath + this.userFile);
+        this.ratingFile = System.getProperty("user.dir").concat(parentPath + this.ratingFile);
     }
 
     public MovieDatabase getMovieDatabase() {
@@ -90,7 +92,7 @@ public class FileParser implements MdbParser {
         Map<Integer,User>mapUser=new HashMap<Integer,User>();
         BufferedReader bufferedReader=null;
         try {
-            bufferedReader=new BufferedReader(new FileReader(userFile));
+            bufferedReader = new BufferedReader(new FileReader(userFile));
             String line;
             while((line=bufferedReader.readLine())!=null) {
                 List<String>tokens = this.tokanizeLine(line,"|");
@@ -114,7 +116,7 @@ public class FileParser implements MdbParser {
         } catch(IOException e) {
             logger.info("I/o Error file ");
         }
-        finally{
+        finally {
             try {
                 bufferedReader.close();
             } catch (IOException e) {
@@ -124,13 +126,63 @@ public class FileParser implements MdbParser {
         return mapUser;
     }
 
-    private List<Rating>ratingFileParser(Map<Integer, Movie> movieMap, Map<Integer, User>userMap) {
-        List<Rating> listOfMovieRating = new ArrayList<Rating>();
-        listOfMovieRating.add(new Rating(movieMap.get(100),userMap.get(12),8));
-        listOfMovieRating.add(new Rating(movieMap.get(100),userMap.get(13),6));
-        listOfMovieRating.add(new Rating(movieMap.get(101),userMap.get(14),5));
-        listOfMovieRating.add(new Rating(movieMap.get(100),userMap.get(14),9));
-        listOfMovieRating.add(new Rating(movieMap.get(101),userMap.get(12),4));
-        return listOfMovieRating;
+    /**
+     * Same user can given multiple rating to the same movie
+     */
+
+    public List<Rating>ratingFileParser(Map<Integer,Movie>movieMap,Map<Integer,User>userMap) {
+        logger.info("Start rating file parsing.");
+        BufferedReader bufferedReader=null;
+        List<Rating>ratingList=null;
+        try{
+            bufferedReader=new BufferedReader(new FileReader(ratingFile));
+            String line;
+            ratingList=new ArrayList<Rating>();
+            while((line=bufferedReader.readLine())!=null)
+            {
+                List<String>tokens = this.tokanizeLine(line,"\t");
+                Iterator<String>itr=tokens.iterator();
+                if(tokens.size()<4){
+                    logger.info(String.format("Invalid rating line : %s", line));
+                    continue;
+                }
+                try{
+                    int userId = Integer.parseInt(itr.next().trim());
+                    int movieId = Integer.parseInt(itr.next().trim());
+                    if(userMap.containsKey(userId) && movieMap.containsKey(movieId)) {
+                        User user=userMap.get(userId);
+                        Movie movie=movieMap.get(movieId);
+                        int rate=Integer.parseInt(itr.next().trim());
+                        ratingList.add(new Rating(movie,user,rate));
+                    }
+                    else{
+                        if(!userMap.containsKey(userId)) {
+                            logger.info(String.format("User with user id %s doesn't exist.", userId));
+                        }
+                        if(!movieMap.containsKey(movieId)) {
+//                            logger.info(String.format("Movie with movie id %s doesn't exist.", movieId));
+                        }
+                        continue;
+                    }
+                } catch(NumberFormatException e) {
+                    logger.info("line cannot be parsed");
+                }
+            }
+
+        }
+        catch(IOException e) {
+            logger.info("File reading error.");
+            logger.info(e.getMessage());
+        }
+        finally{
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        logger.info("Rating file parsing end.");
+        return ratingList;
     }
 }
