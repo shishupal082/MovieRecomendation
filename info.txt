@@ -1,0 +1,15 @@
+Assignment :
+getMostWatchedMovie =>
+Assumptions => If user watch movie they must give rating.
+
+getTopMovieByGenre =>
+getTopMovieByYear =>
+getMostWathedGenre =>
+getMostActiveUser =>
+getHighestRatedGenre =>
+
+Important points =>
+Interface
+Implements (Only interface can be implements)
+abstract class
+Extend class

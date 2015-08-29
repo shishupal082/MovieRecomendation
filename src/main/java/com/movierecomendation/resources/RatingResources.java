@@ -24,18 +24,9 @@ import java.util.Map;
 public class RatingResources {
     private static Logger logger = LoggerFactory.getLogger(MovieResources.class);
     MdbParser mdb = new FileParser();
-    DisplayResult displayResult = new DisplayResult();
     private RatingLibs ratingLibs = new RatingLibs(mdb.getMovieDatabase());
 
     @GET
-    @Path("/all")
-    public Response getAllUser() {
-        CustomResponse res = new CustomResponse();
-        return Response.status(Response.Status.FOUND).entity(res.getTooManyData()).build();
-    }
-
-    @GET
-    @Path("/possibleRatingVal")
     public Response getPossibleRatingVal() {
         return Response.status(Response.Status.FOUND).entity(ratingLibs.getPossibleRatingVal()).build();
     }

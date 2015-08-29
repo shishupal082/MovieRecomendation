@@ -1,5 +1,6 @@
 package com.movierecomendation;
 
+import com.movierecomendation.resources.MovieRecomendorResources;
 import com.movierecomendation.resources.MovieResources;
 import com.movierecomendation.resources.RatingResources;
 import com.movierecomendation.resources.UserResources;
@@ -20,5 +21,6 @@ public class App extends BaseApplication <AppConfiguration> {
         environment.jersey().register(MovieResources.class);
         environment.jersey().register(UserResources.class);
         environment.jersey().register(RatingResources.class);
+        environment.jersey().register(MovieRecomendorResources.class);
     }
 }

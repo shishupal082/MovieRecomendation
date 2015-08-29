@@ -22,7 +22,6 @@ public class MovieResources {
     private static Logger logger = LoggerFactory.getLogger(MovieResources.class);
 
     MdbParser mdb = new FileParser();
-    DisplayResult displayResult = new DisplayResult();
     MovieLibs movieLibs = new MovieLibs(mdb.getMovieDatabase());
 
     @GET
